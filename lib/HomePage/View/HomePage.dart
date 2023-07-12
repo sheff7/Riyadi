@@ -476,7 +476,92 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
 
-                        Obx(() => _ladiesonlyWidget()
+                        Obx(() => SizedBox(
+                                  height: 18.3.h,
+                                  child: ListView.builder(
+                                    physics: AlwaysScrollableScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    itemCount: _controller
+                                        .gimListEntity.value.gyms!.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Padding(
+                                        padding: EdgeInsets.only(right: 1.h),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.to(LadiesOnlySingleList());
+                                          },
+                                          child: Container(
+                                            width: 28.w,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(2.h),
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                color: Colors.grey,
+                                                style: BorderStyle.solid,
+                                                width: .3,
+                                              ),
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  height: 26.w,
+                                                  margin: EdgeInsets.all(.6.h),
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: _image(
+                                                            _controller
+                                                                .gimListEntity
+                                                                .value
+                                                                .gyms![index]
+                                                                .activitiesimage
+                                                                .toString())),
+
+// NetworkImage(_controller.gimListEntity.value.gyms![index].activitiesimage.toString()),
+// fit: BoxFit.cover,
+
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                13)),
+                                                    color: Color(0xffFFB485),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 1.h),
+                                                  child: Text(
+                                                    _controller
+                                                        .gimListEntity
+                                                        .value
+                                                        .gyms![index]
+                                                        .activities
+                                                        .toString(),
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                      fontSize: 7.sp,
+                                                      color: Color(0xff06807F),
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )
                             // LadiesOnlyWidget(
                             //   image: _controller
                             //       .gimListEntity.value.gyms![0].activitiesimage
@@ -757,108 +842,108 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _ladiesonlyWidget() {
-    if (_controller.isLoading.value == false) {
-      if (_controller.gimListEntity.value == null) {
-        return Text("No data");
-      } else if (_controller.gimListEntity.value.status == "true") {
-        if (_controller.gimListEntity.value.gyms!.length == 0) {
-          return Text("No data");
-        } else if (_controller.gimListEntity.value.gyms!.length != 0) {
-          return SizedBox(
-            height: 18.3.h,
-            child: ListView.builder(
-              physics: AlwaysScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              itemCount: _controller.gimListEntity.value.gyms!.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: EdgeInsets.only(right: 1.h),
-                  child: InkWell(
-                    onTap: () {
-                      Get.to(LadiesOnlySingleList());
-                    },
-                    child: Container(
-                      width: 28.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2.h),
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.grey,
-                          style: BorderStyle.solid,
-                          width: .3,
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 26.w,
-                            margin: EdgeInsets.all(.6.h),
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image:_image(_controller.gimListEntity.value.gyms![index].activitiesimage.toString())),
-
-
-// NetworkImage(_controller.gimListEntity.value.gyms![index].activitiesimage.toString()),
-// fit: BoxFit.cover,
-
-                              borderRadius: BorderRadius.all(Radius.circular(13)),
-                              color: Color(0xffFFB485),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 1.h),
-                            child: Text(
-                              _controller.gimListEntity.value.gyms![index].activities.toString(),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 7.sp,
-                                color: Color(0xff06807F),
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          );;
-        }
-      } else if (_controller.gimListEntity.value.status == "false") {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [Text('Please Wait...')],
-          ),
-        );
-      }
-    } else if (_controller.isLoading.value == true) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: ColorConstants.appThemeColorGreen,
-            ),
-            Text('Loading..'),
-          ],
-        ),
-      );
-    }
-
-    // Add a default return statement in case none of the conditions are met.
-    return Container();
-  }
+//   Widget _ladiesonlyWidget() {
+//     if (_controller.isLoading.value == false) {
+//       if (_controller.gimListEntity.value == null) {
+//         return Text("No data");
+//       } else if (_controller.gimListEntity.value.status == "true") {
+//         if (_controller.gimListEntity.value.gyms!.length == 0) {
+//           return Text("No data");
+//         } else if (_controller.gimListEntity.value.gyms!.length != 0) {
+//           return SizedBox(
+//             height: 18.3.h,
+//             child: ListView.builder(
+//               physics: AlwaysScrollableScrollPhysics(),
+//               scrollDirection: Axis.horizontal,
+//               padding: EdgeInsets.zero,
+//               shrinkWrap: true,
+//               itemCount: _controller.gimListEntity.value.gyms!.length,
+//               itemBuilder: (BuildContext context, int index) {
+//                 return Padding(
+//                   padding: EdgeInsets.only(right: 1.h),
+//                   child: InkWell(
+//                     onTap: () {
+//                       Get.to(LadiesOnlySingleList());
+//                     },
+//                     child: Container(
+//                       width: 28.w,
+//                       decoration: BoxDecoration(
+//                         borderRadius: BorderRadius.circular(2.h),
+//                         color: Colors.white,
+//                         border: Border.all(
+//                           color: Colors.grey,
+//                           style: BorderStyle.solid,
+//                           width: .3,
+//                         ),
+//                       ),
+//                       child: Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           Container(
+//                             height: 26.w,
+//                             margin: EdgeInsets.all(.6.h),
+//                             decoration: BoxDecoration(
+//                               image: DecorationImage(
+//                                   image:_image(_controller.gimListEntity.value.gyms![index].activitiesimage.toString())),
+//
+//
+// // NetworkImage(_controller.gimListEntity.value.gyms![index].activitiesimage.toString()),
+// // fit: BoxFit.cover,
+//
+//                               borderRadius: BorderRadius.all(Radius.circular(13)),
+//                               color: Color(0xffFFB485),
+//                             ),
+//                           ),
+//                           Container(
+//                             padding: EdgeInsets.symmetric(horizontal: 1.h),
+//                             child: Text(
+//                               _controller.gimListEntity.value.gyms![index].activities.toString(),
+//                               maxLines: 2,
+//                               overflow: TextOverflow.ellipsis,
+//                               textAlign: TextAlign.start,
+//                               style: TextStyle(
+//                                 fontSize: 7.sp,
+//                                 color: Color(0xff06807F),
+//                                 fontWeight: FontWeight.w700,
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                 );
+//               },
+//             ),
+//           );;
+//         }
+//       } else if (_controller.gimListEntity.value.status == "false") {
+//         return Center(
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             children: [Text('Please Wait...')],
+//           ),
+//         );
+//       }
+//     } else if (_controller.isLoading.value == true) {
+//       return Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: [
+//             CircularProgressIndicator(
+//               color: ColorConstants.appThemeColorGreen,
+//             ),
+//             Text('Loading..'),
+//           ],
+//         ),
+//       );
+//     }
+//
+//     // Add a default return statement in case none of the conditions are met.
+//     return Container();
+//   }
 }
 
 _image(String images) {
@@ -965,4 +1050,3 @@ _image(String images) {
 //
 // }
 // }
-
