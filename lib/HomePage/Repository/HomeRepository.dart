@@ -31,7 +31,7 @@ class HomeRepository {
       print('response code '+response.statusCode.toString());
       print("shahhhh"+response.statusCode.toString()+response.statusMessage.toString());
 
-      if (response.statusCode == 200 || response.statusCode==401) {
+      if (response.statusCode == 200) {
         // OTP sent successfully
         var data = response.data;
         print(data.toString());
